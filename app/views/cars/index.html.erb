@@ -1,0 +1,17 @@
+<h1>Cars#index</h1>
+<p>Find me in app/views/cars/index.html.erb</p>
+
+
+<% if current_user.role.try(:name) == "admin" %>
+
+	<h1>Welcome <%= current_user.role.try(:name) %></h1>
+<% elsif current_user.role.try(:name) == "staff" %>
+Welcome <%= current_user.role.try(:name) %>
+
+<% elsif current_user.role.try(:name) == "technician" %>
+Welcome <%= current_user.role.try(:name) %>
+
+<% else %> 
+Welcome <%= current_user.role.try(:name) %>
+
+<% end %>
