@@ -12,7 +12,12 @@ RailsAdmin.config do |config|
   RailsAdmin.config do |config|
     config.authorize_with do |controller|
       redirect_to main_app.root_path unless current_user.role.name == "admin" 
-      flash[:alert] = "You are not an admin"
+      if current_user.role.name == "admin"
+
+        flash[:notice] = "Welcome admin"
+      else
+        flash[:alert] = "Sorry, but you do not have permission for access."
+      end
     end
   end
   ## == Cancan ==

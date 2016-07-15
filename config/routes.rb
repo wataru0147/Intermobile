@@ -1,12 +1,22 @@
 Rails.application.routes.draw do
   
 
+
+
+ 
+  resources :services
+  resources :car_models
+  resources :cars
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users
 
-
-  resources :cars
-
+  resources :service_transactions do
+    resources :comments
+    resources :service_todos, only: [:index, :new, :create]
+  end
+ 
+ resources :service_todos, only: [:show, :edit, :update, :destroy]
+   resources :service_transactions 
 
   get 'home/index'
 

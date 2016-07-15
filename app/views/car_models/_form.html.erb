@@ -1,0 +1,12 @@
+<%= simple_form_for(@car_model) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.association :car_manufacturer %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

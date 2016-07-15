@@ -1,17 +1,35 @@
-<h1>Cars#index</h1>
-<p>Find me in app/views/cars/index.html.erb</p>
+<p id="notice"><%= notice %></p>
 
+<h1>Listing Cars</h1>
 
-<% if current_user.role.try(:name) == "admin" %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Plate number</th>
+      <th>Year</th>
+      <th>User</th>
+      <th>Car Model</th>
+      <th>Car Manufacturer</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
 
-	<h1>Welcome <%= current_user.role.try(:name) %></h1>
-<% elsif current_user.role.try(:name) == "staff" %>
-Welcome <%= current_user.role.try(:name) %>
+  <tbody>
+    <% @cars.each do |car| %>
+      <tr>
+        <td><%= car.plate_number %></td>
+        <td><%= car.year %></td>
+        <td><%= car.user.try(:email) %></td>
+        <td><%= car.car_model.try(:name) %></td>
+        <td><%= car.car_model.car_manufacturer.try(:name) %></td>
+        <td><%= link_to 'Show', car %></td>
+        <td><%= link_to 'Edit', edit_car_path(car) %></td>
+        <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
-<% elsif current_user.role.try(:name) == "technician" %>
-Welcome <%= current_user.role.try(:name) %>
+<br>
 
-<% else %> 
-Welcome <%= current_user.role.try(:name) %>
-
-<% end %>
+<%= link_to 'New Car', new_car_path %>

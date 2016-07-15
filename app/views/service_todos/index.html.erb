@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Service Todos</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Paid at</th>
+      <th>Completed at</th>
+      <th>Started at</th>
+      <th>Service transaction</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @service_todos.each do |service_todo| %>
+      <tr>
+        <td><%= service_todo.paid_at %></td>
+        <td><%= service_todo.completed_at %></td>
+        <td><%= service_todo.started_at %></td>
+        <td><%= service_todo.service_transaction.try(:id) %></td>
+        <td><%= link_to 'Show', service_todo %></td>
+        <td><%= link_to 'Edit', edit_service_todo_path(service_todo) %></td>
+        <td><%= link_to 'Destroy', service_todo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Service todo', new_service_todo_path %>

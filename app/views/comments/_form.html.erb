@@ -1,0 +1,10 @@
+
+<%= simple_form_for([@service_transaction, @service_transaction.comments.build]) do |f| %>
+
+	<%= f.input :content, label: "Comment" %>
+	<%= f.button :submit, class: "btn btn-default" %>
+	
+<%= link_to 'Back', :back , class: "btn btn-default right" %><hr>
+<% end %>
+
+

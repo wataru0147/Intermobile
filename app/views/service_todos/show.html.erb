@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<!-- <p>
+  <strong>Paid at:</strong>
+  <%= @service_todo.paid_at %>
+</p>
+
+<p>
+  <strong>Completed at:</strong>
+  <%= @service_todo.completed_at %>
+</p>
+
+<p>
+  <strong>Started at:</strong>
+  <%= @service_todo.started_at %>
+</p> -->
+<p>
+  <strong>Service todo:</strong>
+  <%= @service_todo.service.try(:name) %>
+</p>
+
+<p>
+  <strong>Service transaction:</strong>
+  <%= @service_todo.service_transaction.try(:id) %>
+</p>
+
+<%= link_to 'Edit', edit_service_todo_path(@service_todo) %> |
+<%= link_to 'Back', service_todos_path %>

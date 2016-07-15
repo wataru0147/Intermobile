@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Plate number:</strong>
+  <%= @car.plate_number %>
+</p>
+
+<p>
+  <strong>Year:</strong>
+  <%= @car.year %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @car.user.try(:email) %>
+</p>
+
+        <p><strong>Car Model:</strong><%= @car.car_model.try(:name) %></p>
+        <p><strong>Car Manufacturer:</strong><%= @car.car_model.car_manufacturer.try(:name) %></p>
+
+  <% @service_transactions.each do |service_transaction| %>
+  <li>
+   <!--transaction id -->
+  	<%= link_to service_transaction.created_at, service_transaction  %>
+  </li>
+  <% end %>
+<%= link_to 'Edit', edit_car_path(@car) %> |
+<%= link_to 'Back', cars_path %>

@@ -4,7 +4,8 @@ class User < ActiveRecord::Base
 
 
   belongs_to :role
-
+  has_many :cars
+  has_many :comments
   after_initialize :set_default_role, :if => :new_record?
 
 

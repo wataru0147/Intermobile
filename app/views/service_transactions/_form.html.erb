@@ -1,0 +1,13 @@
+<%= simple_form_for(@service_transaction) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+   <%= f.association :car, :label_method => :plate_number, :value_method => :id %>
+  </div>
+  <%= f.simple_fields_for :service_todos do |p| %>
+  	<%= p.association :service, :label_method => :name, :value_method => :id %>
+  <% end %>
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

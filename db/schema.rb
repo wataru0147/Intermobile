@@ -11,10 +11,78 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160714110655) do
+ActiveRecord::Schema.define(version: 20160715031229) do
+
+  create_table "car_manufacturers", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "car_models", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "car_manufacturer_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "car_models", ["car_manufacturer_id"], name: "index_car_models_on_car_manufacturer_id"
+
+  create_table "cars", force: :cascade do |t|
+    t.string   "plate_number"
+    t.string   "year"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "car_model_id"
+  end
+
+  add_index "cars", ["car_model_id"], name: "index_cars_on_car_model_id"
+  add_index "cars", ["user_id"], name: "index_cars_on_user_id"
+
+  create_table "comments", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "user_id"
+    t.integer  "service_transaction_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "comments", ["service_transaction_id"], name: "index_comments_on_service_transaction_id"
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "service_todos", force: :cascade do |t|
+    t.datetime "paid_at"
+    t.datetime "completed_at"
+    t.datetime "started_at"
+    t.integer  "service_transaction_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "service_id"
+  end
+
+  add_index "service_todos", ["service_id"], name: "index_service_todos_on_service_id"
+  add_index "service_todos", ["service_transaction_id"], name: "index_service_todos_on_service_transaction_id"
+
+  create_table "service_transactions", force: :cascade do |t|
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.integer  "car_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "service_transactions", ["car_id"], name: "index_service_transactions_on_car_id"
+
+  create_table "services", force: :cascade do |t|
+    t.string   "name"
+    t.decimal  "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
