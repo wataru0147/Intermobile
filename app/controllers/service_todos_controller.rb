@@ -59,24 +59,24 @@ class ServiceTodosController < ApplicationController
   end
 
 
- def completed
+ # def completed
 
-    #ServiceTodoMailer.completed(@service_todo).deliver
-    @service_todo.update_attribute(:completed_at, Time.now)
-    redirect_to @cars_todo_list, notice: "Service Completed"
-  end   
+ #    #ServiceTodoMailer.completed(@service_todo).deliver
+ #    @service_todo.update_attribute(:completed_at, Time.now)
+ #    redirect_to @cars_todo_list, notice: "Service Completed"
+ #  end   
 
-  def on_going
-    #ServiceTodoMailer.on_going(@service_todo).deliver
-    @service_todo.update_attribute(:started_at, Time.now)
-    redirect_to @cars_todo_list, notice: "Service On-going"
-  end   
+ #  def on_going
+ #    #ServiceTodoMailer.on_going(@service_todo).deliver
+ #    @service_todo.update_attribute(:started_at, Time.now)
+ #    redirect_to @cars_todo_list, notice: "Service On-going"
+ #  end   
 
-  def paid
-    #ServiceTodoMailer.paid(@service_todo).deliver
-    @service_todo.update_attribute(:paid_at, Time.now)
-    redirect_to @cars_todo_list, notice: "Service Paid, Please Update the Bill Balance"
-  end   
+ #  def paid
+ #    #ServiceTodoMailer.paid(@service_todo).deliver
+ #    @service_todo.update_attribute(:paid_at, Time.now)
+ #    redirect_to @cars_todo_list, notice: "Service Paid, Please Update the Bill Balance"
+ #  end   
 
   private
     # Use callbacks to share common setup or constraints between actions.
