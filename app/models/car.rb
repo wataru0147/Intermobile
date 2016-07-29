@@ -13,6 +13,7 @@ class Car < ActiveRecord::Base
   validates :year, numericality: true, presence: true
   validates :plate_number, format: { with: /[A-Z]{2,3}-[0-9]{3,4}/,
     message: "Follow (XXX-999/XXX-9999/XX-9999)" }
+  validates :picture, attachment_presence: true
 
 
   def self.search(search)

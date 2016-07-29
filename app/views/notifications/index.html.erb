@@ -1,4 +1,9 @@
+<div class="well">
+<h1> My Notifications </h1>
+
 <% @notifications.order('created_at DESC').each do |notification| %>
 
 	<%= render 'notification', notification: notification %>
 <% end %>
+
+</div>
