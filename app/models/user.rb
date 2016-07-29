@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   has_many :notifications, dependent: :destroy
   validates :email, uniqueness: true
   validates :contact_number_prefix, numericality: true, presence: true
-  validates :contact_number, numericality: true, presence: true
+  validates :contact_number, numericality: true, presence: true, length: { is: 7}
 
   scope :admin, -> {where(role_id: 4)}
   scope :technician, -> {where(role_id: 3)}
