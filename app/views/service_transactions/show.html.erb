@@ -1,62 +1,85 @@
-<div class="well">
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Started at:</strong>
-  <%= @service_transaction.started_at %>
-</p>
-
-<p>
-  <strong>Finished at:</strong>
-  <%= @service_transaction.finished_at %>
-</p>
-
-<p>
-  <strong>Cars:</strong>
-  <%= @service_transaction.car.try(:plate_number) %>
-</p>
-</div>
-
-
-<div class='well'>
-<h3>Services Todo:</h3>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Service Name</th>
-      <th>Price</th>
-      <th></th>
-
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-  <tbody>
-  <tr>
-		<% @service_todos.each do |service_todo| %>
-			<td><%= service_todo.service.name %>  </td>
-			<td><%= service_todo.service.price %>  </td>
-			
-				
-			<!--<td><%= link_to 'Edit', edit_service_todo_path(service_todo) %></td>-->
-		        <td><%= link_to 'Destroy', service_todo, method: :delete, data: { confirm: 'Are you sure?' } %></td><br \>
-		        </tr>
-		<% end %>
+	 <% if current_user.role.name == "admin" || current_user.role.name == "staff" %>
+		<p>	
+				<% if @service_transaction.finished? %>
+						<%= link_to "Marked as Finished", finished_service_transaction_path(@service_transaction), method: :patch, data: {confirm: "Are you sure you want to mark service as finished?"}, class: "btn btn-success disabled" %>
+				<% else %>
+					<%= link_to "Mark as Finished", finished_service_transaction_path(@service_transaction,), method: :patch, data: {confirm: "Are you sure you want to mark service as finished?"}, class: "btn btn-success" %>
+				<% end %>
+		</p>
+	<% end %>
 	
-	</tbody>
-	</table>
-<%= render 'service_todos/form' %>
-</div>
+<div class="panel">
+	<div class="panel panel-info">
+		<div class="panel panel-heading">
+		<p style="float: right">	
+				<% if @service_transaction.finished? %>
+						 <b>Status: </b><span class="label label-success">Transaction Completed</span>
+				<% else %>
+					 <b>Status: </b><span class="label label-default">Transaction On-Going</span>
+				<% end %>
+		</p>
+		<% total_price = 0 %>
+		<% if @service_todos.empty? %>
+
+		<% else %>
+			<% @service_todos.each do |service_todo| %>
+			 <tr>
+			 
+			 	<% total_price += service_todo.service.try(:price) %>
+				
+			<% end %>
+			<li //style="float: //right; //padding-right: //3rem;"> <strong>Service Transaction Summary: <%= number_to_currency(total_price, unit: "Php", separator: ".", delimiter: ",") %></strong></li>
+				<% end %>
+		<li>
+	
+		  <strong>Started at:</strong>
+		  <%= (@service_transaction.created_at).strftime("%B %d,  %I : %M %P") %>
+		</li>
+
+		<li>
+		  <strong>Finished at:</strong>
+		  		  <%= @service_transaction.try(:finished_at).try(:strftime,"%B %d,  %I : %M %P") %>
+		</li>
+
+		<li>
+		  <strong>Staff In Charge : </strong>
+		  <%= @service_transaction.staff_in_charge.try(:email) %>
+		</li>
+		<li>
+		  <strong>Technician In Charge : </strong>
+		  <%= @service_transaction.technician_in_charge.try(:email) %>
+		</li>
+		<li>
+		  <strong>Car :</strong>
+		  <%= @service_transaction.car.try(:plate_number) %>
+		</li>
+		<li>
+		  <strong>Car Owner:</strong>
+		  <%= @service_transaction.car.user.try(:email) %>
+		</li>
+		</div>
 
 
-<div class='well'>
-<h3>Comments:</h3>
-<% @comments.each do |comment| %>
-	<strong><%= comment.user.email %> : </strong>
-	<p>
-	<%= comment.content %>
-	</p>
-<% end %>
-<%= render 'comments/form' %>
-</div>
-<%= link_to 'Edit', edit_service_transaction_path(@service_transaction) %> |
-<%= link_to 'Back', service_transactions_path %>
+	<div class="panel-body">
+		<%= render @service_transaction.service_todos %>
+			<!-- total price of all the service_todos -->
+		
+		<% if current_user.role.name == "admin" || current_user.role.name == "staff" %>
+		<%= render 'service_todos/form' %>
+		<% end %>
+	</div>
+
+
+		<div class="panel-footer">
+		<h3>Comments:</h3>
+		<% @comments.each do |comment| %>
+			<strong><%= comment.user.email %> : </strong>
+			<li class="comment">
+			<%= comment.content %>
+			</li>
+		<% end %>
+		<%= render 'comments/form' %>
+		</div>
+	</div>
+<%= link_to 'Edit', edit_service_transaction_path(@service_transaction), class: "btn btn-default" %> |
+<%= link_to 'Back', service_transactions_path, class: "btn btn-default" %>

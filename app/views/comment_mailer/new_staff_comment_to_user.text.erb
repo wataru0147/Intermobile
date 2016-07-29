@@ -1,0 +1,7 @@
+A new comment was posted by <%= @comment.user.email %>
+
+	<%= @comment.content %>
+
+	To reply to this comment, please visit the transaction at:
+
+	<%= service_transaction_url(@service_transaction) %>

@@ -1,23 +1,42 @@
 class ServiceTransactionsController < ApplicationController
-  before_action :set_service_transaction, only: [:show, :edit, :update, :destroy]
+  before_action :set_service_transaction, only: [:show, :edit, :update, :destroy, :finished]
 
   # GET /service_transactions
   # GET /service_transactions.json
   def index
-    @service_transactions = ServiceTransaction.all
+    if current_user.role.name == "user"
+      @service_transactions = current_user.service_transactions.paginate(:page => params[:page], :per_page => 10)
+    
+    else
+      
+      @service_transactions = ServiceTransaction.all.paginate(:page => params[:page], :per_page => 10)
+    end
   end
+
+
 
   # GET /service_transactions/1
   # GET /service_transactions/1.json
   def show
-     @comments = Comment.where(service_transaction_id: @service_transaction)
+    #disallow users to view what isnt theirs
+     if current_user.id == @service_transaction.car.user_id
+
+     elsif current_user.role.name == "admin" || current_user.role.name == "staff"|| current_user.role.name == "technician"
+     else
+        redirect_to root_path, notice: "You do not have permission to view this."
+     end
+      @comments = Comment.where(service_transaction_id: @service_transaction)
      @service_todos = ServiceTodo.where(service_transaction_id: @service_transaction)
   end
 
   # GET /service_transactions/new
   def new
-    @service_transaction = ServiceTransaction.new
-    @service_transaction.service_todos.build
+    if current_user.role.name == "admin" || current_user.role.name == "staff"
+      @service_transaction = ServiceTransaction.new
+    else
+      redirect_to service_transactions_path, notice: "You do not have permission to access page"
+    end
+    #@service_transaction.service_todos.build
   end
 
   # GET /service_transactions/1/edit
@@ -32,6 +51,21 @@ class ServiceTransactionsController < ApplicationController
 
     respond_to do |format|
       if @service_transaction.save
+          Notification.create(user_id: @service_transaction.car.user_id,
+                          notified_by_id: current_user.id,
+                          car_id: @service_transaction.car_id,
+                          service_transaction_id: @service_transaction.id,
+                          notice_type: 'created a new transaction for you')
+         Notification.create(user_id: @service_transaction.technician_in_charge_id,
+                          notified_by_id: current_user.id,
+                          car_id: @service_transaction.car_id,
+                          service_transaction_id: @service_transaction.id,
+                          notice_type: 'created a new transaction for you')
+          Notification.create(user_id: @service_transaction.staff_in_charge_id,
+                          notified_by_id: current_user.id,
+                          car_id: @service_transaction.car_id,
+                          service_transaction_id: @service_transaction.id,
+                          notice_type: 'created a new transaction for you')
         format.html { redirect_to @service_transaction, notice: 'Service transaction was successfully created.' }
         format.json { render :show, status: :created, location: @service_transaction }
       else
@@ -40,7 +74,26 @@ class ServiceTransactionsController < ApplicationController
       end
     end
   end
+  def finished
+    #mailer =?
+    if current_user.role.name == "admin" || current_user.role.name == "staff"
+       @service_transaction.update_attribute(:finished_at, Time.now)
+      if current_user.id == @service_transaction.staff_in_charge_id || current_user.role.name == "admin"
+         ServiceTransactionMailer.finished(@service_transaction).deliver_later
+           Notification.create(user_id: @service_transaction.car.user_id,
+                            notified_by_id: current_user.id,
+                            car_id: @service_transaction.car_id,
+                            service_transaction_id: @service_transaction.id,
+                            notice_type: 'marked Transaction  as finished')
+           redirect_to @service_transaction, notice: "Service Transaction Finished."
+        else
+          redirect_to @service_transaction, notice: "Action Denied. Only the Technician-In-Charge and Admins have permission to mark this as complete."
+        end
 
+    else
+      redirect_to @service_transaction, notice: "Action Stopped, Only Admin and Staff can mark this as Finished."
+    end
+  end  
   # PATCH/PUT /service_transactions/1
   # PATCH/PUT /service_transactions/1.json
   def update
@@ -64,6 +117,15 @@ class ServiceTransactionsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  def notify_user
+       Notification.create(user_id: @service_transaction.car.user_id,
+                          notified_by_id: current_user.id,
+                          car_id: @service_transaction.car_id,
+                          service_transaction_id: @service_transaction.id,
+                          notice_type: 'comment')
+
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -73,6 +135,6 @@ class ServiceTransactionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def service_transaction_params
-      params.require(:service_transaction).permit(:started_at, :finished_at, :car_id, :comments, :service_todos,:service_todos_attributes => [:service_id, :service_name])
+      params.require(:service_transaction).permit(:started_at, :finished_at, :car_id, :comments, :staff_in_charge_id, :technician_in_charge_id , :service_todos,:service_todos_attributes => [:service_id, :service_name])
     end
 end

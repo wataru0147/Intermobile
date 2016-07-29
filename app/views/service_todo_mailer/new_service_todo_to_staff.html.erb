@@ -1,0 +1,9 @@
+
+<p>
+	Added <%= @service_todo.service.name %> service for <%= @service_todo.service_transaction.car.plate_number %>. 
+</p>
+<p>
+Check out whats happening to your car at:
+
+<%= link_to  @service_transaction.car.plate_number , @service_transaction %>
+.</p>

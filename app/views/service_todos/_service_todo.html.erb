@@ -1,0 +1,54 @@
+
+
+<div class="panel panel-default ">
+  	<% if service_todo.completed? %>  
+  	<div class="panel-body completed_todo">
+	<% elsif service_todo.ongoing? %>
+	<div class="panel-body on_going_todo">
+	<% else %>
+	<div class="panel-body default_todo">
+	<% end %>
+
+
+  		<!-- for status of the service_todo -->
+  		<div class="status_code">
+		  	<% if service_todo.completed? %>
+		
+				 <b>Status: </b><span class="label label-success">Completed</span>
+
+			<% elsif service_todo.ongoing? %>
+				 <b>Status: </b><span class="label label-primary">On-Going</span>
+			<% else %>
+				<b>Status:</b> <span class="label label-default">On Queue</span>
+			<% end %>
+			</div>
+    <b>Service:</b> <%= service_todo.service.name %><br>
+    <b>Price:</b> <%= service_todo.service.price  %><br>
+        <b>Mechanic: </b> <%= service_todo.technician_in_charge.try(:email)  %><br>
+    <!-- conditions for roles -->
+    <% if current_user.role.name == "user" %>
+
+    <% else %>
+	<!-- conditions for ongoing -->
+	<p>
+	<% if service_todo.ongoing? %>
+			<%= link_to "Marked as On-Going", on_going_service_transaction_service_todo_path(@service_transaction, service_todo.id), method: :patch, data: {confirm: "Are you Sure you want to mark service as ON-GOING?"},class: "btn btn-primary disabled" %>
+		<% else %>
+			<%= link_to "Mark as On-Going", on_going_service_transaction_service_todo_path(@service_transaction, service_todo.id), method: :patch, data: {confirm: "Are you Sure you want to mark service as ON-GOING?"},class: "btn btn-primary" %>	
+		<% end %>
+		</p>
+		<!-- end for conditions on-going-->
+
+		<!-- conditions for being completed -->
+	<p>	
+	<% if service_todo.completed? %>
+				<%= link_to "Marked as Complete", completed_service_transaction_service_todo_path(@service_transaction, service_todo.id), method: :patch, data: {confirm: "Are you sure you want to mark service as COMPLETED?"}, class: "btn btn-success disabled" %>
+		<% else %>
+			<%= link_to "Mark as Complete", completed_service_transaction_service_todo_path(@service_transaction, service_todo.id), method: :patch, data: {confirm: "Are you sure you want to mark service as COMPLETED?"}, class: "btn btn-success" %>
+		<% end %>
+	</p>
+		<!-- end for completed conditions -->
+		<% end %>
+		<!-- end for conditional statements on roles -->
+  </div>
+</div>

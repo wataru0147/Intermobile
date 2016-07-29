@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+
 
 <h1>Listing Cars</h1>
 
@@ -31,5 +31,8 @@
 </table>
 
 <br>
+  <% if current_user.role.name == "admin" || current_user.role.name == "staff" || current_user.role.name == "technician" %>
+    <%= link_to 'New Car', new_car_path %>
+  <% end %>
 
-<%= link_to 'New Car', new_car_path %>
+  <%= will_paginate @collection, renderer: BootstrapPagination::Rails %>

@@ -22,3 +22,64 @@
 .well.login_form {
     max-width: 60rem;
 }
+
+li.transaction_links {
+
+    list-style: none;
+    font-size: 2rem;
+    a:hover{
+    	color: inherit;
+    	transition: background-color 0.5s ease;
+  		background-color: gray;
+    	text-decoration: none;
+
+    }
+    a:visited{
+    	color: inherit;
+    }
+    a:active{
+    	color: inherit;
+    }
+    a:link{
+    	color: inherit;
+    }
+
+}
+
+nav.navbar.navbar-default {
+    background-color: #37ecba;
+    border-color: #37ecba;
+}
+
+.not-active {
+   pointer-events: none;
+   cursor: default;
+}
+
+.status_code {
+    float: right;
+
+}
+
+.default_todo {
+    //color: #f6f6f6;
+   // background-color: #777777;
+}
+
+.on_going_todo {
+    //color: #0c1c29;
+ //   background-color: #337ab7;
+}
+
+.completed_todo{
+     //color: #093909;
+    //background-color: #5cb85c;
+}
+
+li.unread {
+    background-color: #d1cdcd;
+}
+
+li.comment {
+    list-style: none;
+}

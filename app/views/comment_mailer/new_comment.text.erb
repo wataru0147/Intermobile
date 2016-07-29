@@ -1,0 +1,18 @@
+New Comment On your Car Transaction <%= @service_transaction.car.plate_number %>:<br>
+
+
+<%= @comment.content %>
+
+	<% if @comment.user.role.name == "admin" %>
+	by: ADMIN
+
+	<% else %>
+	<%= @comment.user.email %> : <%= @comment.user.role.name %>
+	<% end %>
+</p>
+<p>
+Check out whats happening to your car at:
+
+<%= service_transaction_url(@service_transaction) %>
+
+</p>

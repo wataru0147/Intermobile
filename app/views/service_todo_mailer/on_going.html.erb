@@ -1,0 +1,10 @@
+
+<p>
+	Service <%= @service_todo.service.name %> for your Car <%= @service_transaction.car.plate_number %> is now on-going. 
+</p>
+<p>
+Check out whats happening to your car at:
+
+<%= link_to  @service_transaction.car.plate_number , @service_transaction %>
+
+</p>

@@ -1,28 +1,38 @@
-<p id="notice"><%= notice %></p>
-
+<div class="well">
 <p>
-  <strong>Plate number:</strong>
-  <%= @car.plate_number %>
+
 </p>
+  <p>
+    <strong>Plate number:</strong>
+    <%= @car.plate_number %>
+  </p>
 
-<p>
-  <strong>Year:</strong>
-  <%= @car.year %>
-</p>
+  <p>
+    <strong>Year:</strong>
+    <%= @car.year %>
+  </p>
 
-<p>
-  <strong>User:</strong>
-  <%= @car.user.try(:email) %>
-</p>
+  <p>
+    <strong>User:</strong>
+    <%= @car.user.try(:email) %>
+  </p>
 
-        <p><strong>Car Model:</strong><%= @car.car_model.try(:name) %></p>
-        <p><strong>Car Manufacturer:</strong><%= @car.car_model.car_manufacturer.try(:name) %></p>
-
-  <% @service_transactions.each do |service_transaction| %>
-  <li>
-   <!--transaction id -->
-  	<%= link_to service_transaction.created_at, service_transaction  %>
-  </li>
-  <% end %>
-<%= link_to 'Edit', edit_car_path(@car) %> |
-<%= link_to 'Back', cars_path %>
+          <p><strong>Car Model:</strong><%= @car.car_model.try(:name) %></p>
+          <p><strong>Car Manufacturer:</strong><%= @car.car_model.car_manufacturer.try(:name) %></p>
+          <p>
+            <%= image_tag @car.picture.url(:medium) %>
+          </p>
+          <%= link_to "Download", @car.picture.url(:original, false) %>
+  <p>
+    <strong>Service Transactions:</strong>
+    <% @service_transactions.each do |service_transaction| %>
+    <li class="transaction_links">
+     <!--transaction id -->
+    	<%= link_to service_transaction.created_at.strftime("%B %d, %I : %m %p ") , service_transaction  %>
+    </li>
+    <% end %>
+  </p>
+    <br>
+  <%= link_to 'Edit', edit_car_path(@car), class: "btn btn-default" %> |
+  <%= link_to 'Back', cars_path, class: "btn btn-default" %>
+</div>

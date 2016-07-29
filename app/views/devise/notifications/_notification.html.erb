@@ -1,0 +1,7 @@
+	
+	<% if notification.read? %>
+	<li class="read">
+	<% else %>
+	<li class="unread">
+	<% end %>
+	<%= link_to "#{notification.notified_by.email}  #{notification.notice_type}" ,  link_through_path(notification) %> <em style="float: right; font-size: 1rem; "><%=time_ago_in_words(notification.created_at) %> ago</em></li>

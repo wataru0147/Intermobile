@@ -1,10 +1,12 @@
 class CarModelsController < ApplicationController
   before_action :set_car_model, only: [:show, :edit, :update, :destroy]
-  
+  before_action :authenticate_admin!
   # GET /car_models
   # GET /car_models.json
   def index
-    @car_models = CarModel.all
+    @car_models = CarModel.all.paginate(:page => params[:page], :per_page => 10)
+    
+
   end
 
   # GET /car_models/1

@@ -3,15 +3,14 @@
 
   <div class="form-inputs">
     <%= f.input :plate_number %>
-    <%= f.input :year %>
+    <%= f.input :year, collection: 1990..2016 %>
     <% if current_user.role.name == "user" %>
 
     <% else %>
-    <%= f.association :user, :label_method => :email, :value_method => :id %>
-
+   <%= f.association :user, collection: User.user, :label_method => :email, :value_method => :id%>
     <% end %>
     <%= f.association :car_model, :label_method => :name, :value_method => :id %>
-
+     <%= f.input :picture, as: :file %>
   </div>
 
   <div class="form-actions">

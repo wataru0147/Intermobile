@@ -6,9 +6,9 @@ class CarsController < ApplicationController
   def index
     if user_signed_in?
        if current_user.role.name == "user"
-      @cars = current_user.cars
+      @cars = current_user.cars.paginate(:page => params[:page], :per_page => 10)
     else
-      @cars = Car.all
+      @cars = Car.all.paginate(:page => params[:page], :per_page => 10)
     end
     else
       redirect_to new_user_session_path
@@ -95,6 +95,6 @@ class CarsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def car_params
-      params.require(:car).permit(:plate_number, :year, :user_id, :car_manufacturer_id, :car_model_id, :edited_by)
+      params.require(:car).permit(:plate_number, :year, :user_id, :car_manufacturer_id, :car_model_id, :edited_by, :picture)
     end
 end

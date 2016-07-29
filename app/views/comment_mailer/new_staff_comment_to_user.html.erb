@@ -1,0 +1,11 @@
+<p>
+A new comment was posted by <%= @comment.user.email %>
+</p>
+<blockquote>
+	<%= @comment.content %>
+</blockquote>
+<p>
+	To reply to this comment, please visit the transaction at:
+
+	<%= link_to "Service Transaction", @service_transaction %>
+</p>

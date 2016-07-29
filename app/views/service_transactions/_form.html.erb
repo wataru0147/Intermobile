@@ -2,11 +2,12 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+   <%= f.association :staff_in_charge, collection: User.staff, :label_method => :email, :value_method => :id %>
+    <%= f.association :technician_in_charge, collection: User.technician, :label_method => :email, :value_method => :id %>
    <%= f.association :car, :label_method => :plate_number, :value_method => :id %>
   </div>
-  <%= f.simple_fields_for :service_todos do |p| %>
-  	<%= p.association :service, :label_method => :name, :value_method => :id %>
-  <% end %>
+  
+
   <div class="form-actions">
     <%= f.button :submit %>
   </div>

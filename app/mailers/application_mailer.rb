@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "no-reply@intermobile2016.com"
+  default from: "no-reply@intermobile.com"
   layout 'mailer'
 end
