@@ -11,4 +11,15 @@ class Car < ActiveRecord::Base
   validates :car_model_id, presence: true
   validates :user_id, presence: true
   validates :year, numericality: true, presence: true
+  validates :plate_number, format: { with: /[A-Z]{2,3}-[0-9]{3,4}/,
+    message: "Follow (XXX-999/XXX-9999/XX-9999)" }
+
+
+  def self.search(search)
+    if search
+      where(["plate_number LIKE ?" , "%#{search}%"])
+    else
+      all
+    end    
+  end
 end

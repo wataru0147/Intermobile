@@ -1,0 +1,4 @@
+<% @notifications.order('created_at DESC').each do |notification| %>
+
+	<%= render 'notification', notification: notification %>
+<% end %>

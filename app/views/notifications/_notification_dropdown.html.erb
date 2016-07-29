@@ -7,6 +7,12 @@
   </button>
   <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
    	<%= render current_user.notifications.order('created_at DESC').first(3) %>
- 
+  <li class="divider" role: "separator">
+	 	<li class="text-center">
+	 		<%= link_to "View All", notifications_path %>
+	 	</li>
+	 </li>
   </ul>
+	
+
 </li>

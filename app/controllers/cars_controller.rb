@@ -6,10 +6,10 @@ class CarsController < ApplicationController
   def index
     if user_signed_in?
        if current_user.role.name == "user"
-      @cars = current_user.cars.paginate(:page => params[:page], :per_page => 10)
-    else
-      @cars = Car.all.paginate(:page => params[:page], :per_page => 10)
-    end
+      @cars = current_user.cars.where(["plate_number LIKE ?", "%#{params[:search]}%"]).paginate(:page => params[:page], :per_page => 10)
+      else
+        @cars = Car.search(params[:search]).paginate(:page => params[:page], :per_page => 10)
+      end
     else
       redirect_to new_user_session_path
     end
@@ -31,15 +31,21 @@ class CarsController < ApplicationController
 
   # GET /cars/1/edit
   def edit
+    if current_user.role.name == "technician"
+      redirect_to root_path, notice: "Action Denied. You do not have permission to edit this"
+    end
   end
 
   # POST /cars
   # POST /cars.json
   def create
     if current_user.role.name == "user"
-      @car = current_user.cars.build(car_params)
-    else  
+      redirect_to root_path
+      #@car = current_user.cars.build(car_params)
+    elsif current_user.role.name == "admin" || current_user.role.name == "staff"
       @car = Car.new(car_params)
+    else
+       redirect_to root_path
     end 
     #@car.edited_by = current_user.id
     respond_to do |format|
@@ -57,7 +63,9 @@ class CarsController < ApplicationController
   # PATCH/PUT /cars/1
   # PATCH/PUT /cars/1.json
   def update
-  	
+  	 if current_user.role.name == "technician"
+      redirect_to root_path, notice: "Action Denied. You do not have permission to edit this"
+    end
   	#@car.edited_by = current_user.id
     respond_to do |format|
       if @car.update(car_params)

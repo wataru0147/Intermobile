@@ -5,11 +5,11 @@ class ServiceTransactionsController < ApplicationController
   # GET /service_transactions.json
   def index
     if current_user.role.name == "user"
-      @service_transactions = current_user.service_transactions.paginate(:page => params[:page], :per_page => 10)
+      @service_transactions = current_user.service_transactions.where(["service_transactions.id LIKE ?", "%#{params[:search]}%"]).paginate(:page => params[:page], :per_page => 20).order('created_at DESC')
     
     else
       
-      @service_transactions = ServiceTransaction.all.paginate(:page => params[:page], :per_page => 10)
+      @service_transactions = ServiceTransaction.search(params[:search]).paginate(:page => params[:page], :per_page => 40).order('created_at DESC')
     end
   end
 
@@ -41,6 +41,10 @@ class ServiceTransactionsController < ApplicationController
 
   # GET /service_transactions/1/edit
   def edit
+    if current_user.role.name == "admin" || current_user.role.name == "staff"
+    else
+        redirect_to root_path, notice: "Dont have permission"
+    end
   end
 
   # POST /service_transactions
@@ -97,6 +101,10 @@ class ServiceTransactionsController < ApplicationController
   # PATCH/PUT /service_transactions/1
   # PATCH/PUT /service_transactions/1.json
   def update
+    if current_user.role.name == "admin" || current_user.role.name == "staff"
+    else
+        redirect_to root_path, notice: "Dont have permission"
+    end
     respond_to do |format|
       if @service_transaction.update(service_transaction_params)
         format.html { redirect_to @service_transaction, notice: 'Service transaction was successfully updated.' }
@@ -111,11 +119,16 @@ class ServiceTransactionsController < ApplicationController
   # DELETE /service_transactions/1
   # DELETE /service_transactions/1.json
   def destroy
-    @service_transaction.destroy
-    respond_to do |format|
-      format.html { redirect_to service_transactions_url, notice: 'Service transaction was successfully destroyed.' }
-      format.json { head :no_content }
+    if current_user.role.name == "admin" || current_user.role.name == "staff"
+        @service_transaction.destroy
+        respond_to do |format|
+          format.html { redirect_to service_transactions_url, notice: 'Service transaction was successfully destroyed.' }
+          format.json { head :no_content }
+        end
+    else
+        redirect_to root_path, notice: "Dont have permission"
     end
+  
   end
   def notify_user
        Notification.create(user_id: @service_transaction.car.user_id,

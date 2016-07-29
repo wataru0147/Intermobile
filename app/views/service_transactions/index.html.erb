@@ -1,10 +1,16 @@
 
-
+<%= form_tag service_transactions_path, :method => 'get' do %>
+  <p>
+  <%= text_field_tag :search, params[:search] %>
+  <%= submit_tag "Search" %>
+  </p> 
+<% end %>
 <h1>Listing Service Transactions</h1>
 
 <table class="table table-striped">
   <thead>
     <tr>
+      <th>Service Transaction ID# :</th>
       <th>Added on : </th>
       <th>Finished at : </th>
       <th>Cars</th>
@@ -15,6 +21,7 @@
   <tbody>
     <% @service_transactions.each do |service_transaction| %>
       <tr>
+        <td><%= service_transaction.id %></td>
         <td><%= service_transaction.created_at.strftime("%b-%d-%y, %I:%M %P")%>
 
 

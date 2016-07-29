@@ -11,6 +11,13 @@ class ApplicationController < ActionController::Base
 			redirect_to root_path, :notice => "You are not authorized to access the page"
 		end
 	end
+
+  def authenticate_staff!
+    if current_user.role.name == "admin"
+    else
+      redirect_to root_path, :notice => "You are not authorized to access the page"
+    end
+  end
  	
   before_action :configure_permitted_parameters, if: :devise_controller?
 

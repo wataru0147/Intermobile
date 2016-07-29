@@ -16,4 +16,12 @@ class ServiceTransaction < ActiveRecord::Base
   def finished?
   	!finished_at.blank?
   end
+
+  def self.search(search)
+    if search
+      where(["id LIKE ?" , "%#{search}%"])
+    else
+      all
+    end    
+  end
 end
