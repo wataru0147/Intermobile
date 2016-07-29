@@ -11,7 +11,7 @@
 <h1>Cars </h1>
 
   <% @cars.each do |car| %>
-    <div class="box panel panel-default">
+    <div class="well">
        <%= link_to (image_tag car.picture.url(:medium)), car%>
         <div class="panel-body">
           <h2>

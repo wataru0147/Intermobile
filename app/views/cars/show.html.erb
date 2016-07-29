@@ -13,10 +13,17 @@
   </p>
 
   <p>
-    <strong>User:</strong>
+    <strong>Owner's Email:</strong>
     <%= @car.user.try(:email) %>
   </p>
-
+  <p>
+    <strong>Owner's Name:</strong>
+    <%= @car.user.try(:first_name) %> <%= @car.user.try(:last_name) %>
+  </p>
+  <p>
+    <strong>Owner Contact Number:</strong>
+    <%= @car.user.try(:contact_number_prefix) %>   <%= @car.user.try(:contact_number) %>
+  </p>
           <p><strong>Car Model:</strong><%= @car.car_model.try(:name) %></p>
           <p><strong>Car Manufacturer:</strong><%= @car.car_model.car_manufacturer.try(:name) %></p>
           <p>
