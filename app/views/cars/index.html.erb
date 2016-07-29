@@ -5,6 +5,9 @@
   <%= submit_tag "Search" %>
   </p> 
 <% end %>
+<% if current_user.role.name == "admin" || current_user.role.name == "staff" %>
+<%= link_to "Add New Car", new_car_path, class: "btn btn-default" %>
+<% end %>
 <h1>Cars </h1>
 
   <% @cars.each do |car| %>
@@ -17,4 +20,5 @@
        </div>
     </div>
     <% end %>
+
   <%= will_paginate @cars, renderer: BootstrapPagination::Rails %>
