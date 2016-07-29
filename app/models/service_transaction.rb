@@ -19,7 +19,7 @@ class ServiceTransaction < ActiveRecord::Base
 
   def self.search(search)
     if search
-      where(["id LIKE ?" , "%#{search}%"])
+      where(["id = ?" , "%#{search}%"])
     else
       all
     end    

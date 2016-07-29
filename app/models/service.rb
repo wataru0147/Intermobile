@@ -4,5 +4,11 @@ class Service < ActiveRecord::Base
 	validates :name, uniqueness: true
 	validates :price, presence: true
 	validates :name, presence: true
-	
+    def self.search(search)
+	    if search
+	      where(["name LIKE ?" , "%#{search}%"])
+	    else
+	      all
+	    end    
+  	end
 end

@@ -5,11 +5,11 @@ class ServiceTransactionsController < ApplicationController
   # GET /service_transactions.json
   def index
     if current_user.role.name == "user"
-      @service_transactions = current_user.service_transactions.where(["service_transactions.id LIKE ?", "%#{params[:search]}%"]).paginate(:page => params[:page], :per_page => 20).order('created_at DESC')
+      @service_transactions = current_user.service_transactions.paginate(:page => params[:page], :per_page => 20).order('created_at DESC')
     
     else
       
-      @service_transactions = ServiceTransaction.search(params[:search]).paginate(:page => params[:page], :per_page => 40).order('created_at DESC')
+      @service_transactions = ServiceTransaction.all.paginate(:page => params[:page], :per_page => 40).order('created_at DESC')
     end
   end
 

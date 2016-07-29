@@ -1,5 +1,10 @@
-<p id="notice"><%= notice %></p>
 
+<%= form_tag services_path, :method => 'get' do %>
+  <p>
+  <%= text_field_tag :search, params[:search] %>
+  <%= submit_tag "Search" %>
+  </p> 
+<% end %>
 <h1>Services Offered</h1>
 
 <table class="table table-striped">
