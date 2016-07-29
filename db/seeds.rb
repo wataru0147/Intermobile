@@ -6,38 +6,3 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-roles = Role.create([{ name: 'user'}, { name: 'staff'}, { name: 'technician'}, { name: 'admin'}])
-adminuser = User.new
-adminuser.email = "admin@intermobile.com"
-adminuser.password = "admin12345"
-adminuser.password_confirmation = "admin12345"
-adminuser.confirmed_at = Time.now
-adminuser.role_id = 4
-adminuser.contact_number_prefix = 63915
-adminuser.contact_number = 4297350
-adminuser.first_name = admin
-adminuser.last_name = user
-adminuser.save!
-technician = User.new
-technician.email = "technician@intermobile.com"
-technician.password = "technician12345"
-technician.password_confirmation = "technician12345"
-technician.confirmed_at = Time.now
-technician.role_id = 3
-technician.contact_number_prefix = 63915
-technician.contact_number = 4297350
-technician.first_name = technician
-technician.last_name = user
-technician.save!
-staff = User.new
-staff.email = "staff@intermobile.com"
-staff.password = "staff12345"
-staff.password_confirmation = "staff12345"
-staff.confirmed_at = Time.now
-staff.role_id = 2
-staff.contact_number_prefix = 63915
-staff.contact_number = 4297350
-staff.first_name = staff
-staff.last_name = user
-staff.save!
-carmanufacturers = CarManufacturer.create([ {name: 'Aston Martin'}, {name: 'Audi'}, {name: 'Bentley'}, {name: 'BMW'}, {name: 'Chevrolet'}, {name: 'Chrysler/Dodge'}, {name: 'Ferrari'}, {name: 'Ford'}, {name: 'Foton'}, {name: 'Honda'}, {name: 'Hyundai'}, {name: 'Isuzu'}, {name: 'Jaguar'}, {name: 'Jeep'}, {name: 'Kia'}, {name: 'Land Rover'}, {name: 'Lexus'}, {name: 'Lotus'}, {name: 'Mahindra'}, {name: 'Maserati'}, {name: 'Mazda'}, {name: 'Mercedes-Benz'}, {name: 'MG'}, {name: 'Mini'}, {name: 'Mitsubishi'}, {name: 'Morgan'}, {name: 'Nissan'}, {name: 'Peugeot'}, {name: 'Porsche'}, {name: 'Rolls-Royce'}, {name: 'SSsangyong'}, {name: 'Subaru'}, {name: 'Suzuki'}, {name: 'Tata'}, {name: 'Toyota'}, {name: 'Volkswagen'}, {name: 'Volvo'} ])
