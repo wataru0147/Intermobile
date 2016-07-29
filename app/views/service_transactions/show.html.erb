@@ -57,6 +57,10 @@
 		  <strong>Car Owner:</strong>
 		  <%= @service_transaction.car.user.try(:email) %>
 		</li>
+		<li>
+		  <strong>Owner Contact Number:</strong>
+		  <%= @service_transaction.car.user.try(:contact_number_prefix) %>-<%= @service_transaction.car.user.try(:contact_number) %>
+		</li>
 		</div>
 
 

@@ -1,6 +1,52 @@
 
 
-<h1>Listing Service Transactions</h1>
+<h1>On-Going Service Transactions</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Service Transaction ID# :</th>
+      <th>Added on : </th>
+      <th>Finished at : </th>
+      <th>Car: </th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @service_transactions.where(finished_at: nil).each do |service_transaction| %>
+      <tr>
+        <td><%= service_transaction.id %></td>
+        <td><%= service_transaction.created_at.strftime("%b-%d-%y, %I:%M %P")%>
+
+
+        </td>
+        <td><% if service_transaction.finished_at.nil? %>
+          <font style="color: #4b95bf" > On-Going</font>
+          <% else %>
+          <%=  service_transaction.finished_at.strftime("%b-%d-%y, %I:%M %P") %>
+          <% end %>
+        </td>
+        <td><%= link_to 'Show', service_transaction %></td>
+        <% if current_user.role.name == "admin" || current_user.role.name="staff" %>
+          <td><%= service_transaction.car.try(:plate_number) %></td>
+          
+          <td><%= link_to 'Edit', edit_service_transaction_path(service_transaction) %></td>
+          <td><%= link_to 'Destroy', service_transaction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Service transaction', new_service_transaction_path %>
+<%= will_paginate @collection, renderer: BootstrapPagination::Rails %>
+
+
+
+<h1>Past Service Transactions</h1>
 
 <table class="table table-striped">
   <thead>
@@ -14,7 +60,7 @@
   </thead>
 
   <tbody>
-    <% @service_transactions.each do |service_transaction| %>
+    <% @service_transactions.where.not(finished_at: nil).each do |service_transaction| %>
       <tr>
         <td><%= service_transaction.id %></td>
         <td><%= service_transaction.created_at.strftime("%b-%d-%y, %I:%M %P")%>
@@ -27,10 +73,13 @@
           <%=  service_transaction.finished_at.strftime("%b-%d-%y, %I:%M %P") %>
           <% end %>
         </td>
-        <td><%= service_transaction.car.try(:plate_number) %></td>
         <td><%= link_to 'Show', service_transaction %></td>
+        <% if current_user.role.name == "admin" || current_user.role.name="staff" %>
+        <td><%= service_transaction.car.try(:plate_number) %></td>
+        
         <td><%= link_to 'Edit', edit_service_transaction_path(service_transaction) %></td>
         <td><%= link_to 'Destroy', service_transaction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
