@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
   validates :email, uniqueness: true
   validates :contact_number_prefix, numericality: true, presence: true
   validates :contact_number, numericality: true, presence: true, length: { is: 7}
+  validates :first_name, length: { in: 2..20}
+  validates :last_name, length: { in: 2..20}
 
   scope :admin, -> {where(role_id: 4)}
   scope :technician, -> {where(role_id: 3)}
